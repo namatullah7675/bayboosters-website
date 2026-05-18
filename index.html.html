@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08080f;--bg2:#0f0f1a;--bg3:#161624;--card:#111120;
+  --accent:#d4af6e;--accent2:#7b68ee;
+  --accent-soft:rgba(212,175,110,0.12);--accent2-soft:rgba(123,104,238,0.12);
+  --text:#f5f3ee;--muted:#8a8a9a;
+  --border:rgba(255,255,255,0.07);--border-accent:rgba(212,175,110,0.25);
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7}
+
+nav{display:flex;align-items:center;justify-content:space-between;padding:22px 48px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(8,8,15,0.93);backdrop-filter:blur(14px);z-index:100}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:28px}.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s}.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--accent);color:#08080f;font-size:13px;font-weight:600;padding:10px 24px;border-radius:100px;border:none;cursor:pointer;transition:opacity 0.2s}.nav-cta:hover{opacity:0.85}
+
+.hero{padding:96px 48px 80px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-60px;width:480px;height:480px;background:radial-gradient(circle,rgba(123,104,238,0.14) 0%,transparent 65%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-80px;left:20px;width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,110,0.09) 0%,transparent 65%);pointer-events:none}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.eyebrow-line{width:32px;height:1.5px;background:var(--accent)}
+.eyebrow-text{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,5vw,60px);font-weight:800;line-height:1.07;letter-spacing:-0.02em;margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-desc{color:var(--muted);font-size:16px;line-height:1.85;margin-bottom:28px;max-width:440px}
+.client-flags{display:flex;align-items:center;gap:10px;margin-bottom:32px;flex-wrap:wrap}
+.flag-badge{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:100px;padding:7px 16px;font-size:13px;font-weight:500;color:var(--text)}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-gold{background:var(--accent);color:#08080f;font-size:14px;font-weight:600;padding:14px 32px;border-radius:100px;border:none;cursor:pointer;transition:opacity 0.2s}.btn-gold:hover{opacity:0.85}
+.btn-ghost{background:transparent;color:var(--text);font-size:14px;padding:14px 32px;border-radius:100px;border:1px solid var(--border);cursor:pointer;transition:border-color 0.2s}.btn-ghost:hover{border-color:rgba(255,255,255,0.22)}
+.hero-right{display:flex;flex-direction:column;gap:14px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px 26px;display:flex;align-items:center;gap:18px;transition:border-color 0.2s}.stat-card:hover{border-color:var(--border-accent)}
+.stat-icon{width:46px;height:46px;border-radius:14px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.stat-num{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;line-height:1}
+.stat-label{font-size:13px;color:var(--muted);margin-top:3px}
+
+.trust-bar{display:flex;align-items:center;justify-content:center;gap:40px;padding:26px 48px;border-bottom:1px solid var(--border);background:var(--bg2);flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}.trust-item span{color:var(--text);font-weight:500}
+.trust-sep{width:1px;height:18px;background:var(--border)}
+
+section{padding:72px 48px;border-bottom:1px solid var(--border)}
+.sec-eye{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-eye .line{width:24px;height:1.5px;background:var(--accent2)}
+.sec-eye .lbl{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent2);font-weight:500}
+.sec-title{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px}
+.sec-sub{color:var(--muted);max-width:540px;font-size:15px;margin-bottom:48px}
+
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:20px}
+.svc-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:34px 30px;position:relative;transition:border-color 0.25s,transform 0.25s;overflow:hidden}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent2),var(--accent));opacity:0;transition:opacity 0.25s}
+.svc-card:hover{border-color:rgba(123,104,238,0.35);transform:translateY(-5px)}.svc-card:hover::before{opacity:1}
+.svc-num{font-family:'Playfair Display',serif;font-size:12px;color:var(--accent);font-weight:700;letter-spacing:0.1em;margin-bottom:18px;display:block}
+.svc-icon{width:54px;height:54px;background:var(--accent2-soft);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:20px}
+.svc-card h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:10px;color:var(--text)}
+.svc-card p{font-size:13px;color:var(--muted);line-height:1.75}
+.svc-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.svc-tag{background:rgba(123,104,238,0.1);color:var(--accent2);font-size:11px;padding:4px 12px;border-radius:100px;font-weight:500;border:1px solid rgba(123,104,238,0.2)}
+
+.drop-layout{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.drop-intro{color:var(--muted);font-size:15px;line-height:1.85;margin-bottom:28px}.drop-intro strong{color:var(--text);font-weight:500}
+.skills-wrap{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.skill-pill{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:100px;padding:9px 18px;font-size:13px;font-weight:500;color:var(--text);transition:border-color 0.2s}.skill-pill:hover{border-color:var(--border-accent)}
+.skill-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.supplier-cards{display:flex;flex-direction:column;gap:16px}
+.supplier-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px 26px;display:flex;align-items:flex-start;gap:18px;transition:border-color 0.25s,transform 0.2s}.supplier-card:hover{border-color:var(--border-accent);transform:translateX(4px)}
+.sup-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.sup-amazon{background:rgba(255,153,0,0.12)}.sup-ali{background:rgba(255,106,0,0.12)}.sup-cj{background:rgba(74,222,128,0.10)}
+.supplier-card h4{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:6px}
+.supplier-card p{font-size:13px;color:var(--muted);line-height:1.65}
+.sup-badge{display:inline-block;margin-top:10px;font-size:11px;padding:3px 12px;border-radius:100px;font-weight:500}
+.badge-amazon{background:rgba(255,153,0,0.12);color:#f90;border:1px solid rgba(255,153,0,0.25)}
+.badge-ali{background:rgba(255,106,0,0.10);color:#ff6a00;border:1px solid rgba(255,106,0,0.2)}
+.badge-cj{background:rgba(74,222,128,0.10);color:#4ade80;border:1px solid rgba(74,222,128,0.2)}
+
+.markets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.market-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:36px 28px;text-align:center;transition:border-color 0.25s,transform 0.25s}.market-card:hover{border-color:var(--border-accent);transform:translateY(-5px)}
+.market-flag{font-size:48px;margin-bottom:16px;display:block}
+.market-card h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.market-card p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:18px}
+.market-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.m-tag{background:var(--accent-soft);color:var(--accent);font-size:11px;padding:4px 12px;border-radius:100px;font-weight:500;border:1px solid var(--border-accent)}
+
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.process-steps::before{content:'';position:absolute;top:34px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border-accent),transparent)}
+.step{text-align:center;padding:0 14px}
+.step-circle{width:68px;height:68px;border-radius:50%;background:var(--card);border:1.5px solid var(--border-accent);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 20px;position:relative;z-index:1}
+.step-num{position:absolute;top:-4px;right:-4px;width:22px;height:22px;background:var(--accent);border-radius:50%;font-size:10px;font-weight:700;color:#08080f;display:flex;align-items:center;justify-content:center}
+.step h4{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.step p{font-size:12px;color:var(--muted);line-height:1.6}
+
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.about-text p{color:var(--muted);font-size:15px;line-height:1.85;margin-bottom:16px}.about-text p strong{color:var(--text);font-weight:500}
+.vals{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.val{display:flex;align-items:center;gap:12px}
+.val-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.val-text{font-size:14px;color:var(--text)}
+.profile-box{background:var(--card);border:1px solid var(--border-accent);border-radius:24px;padding:36px;text-align:center}
+.avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#fff;margin:0 auto 18px}
+.p-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:4px}
+.p-title{font-size:12px;color:var(--accent);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:20px}
+.p-div{height:1px;background:var(--border);margin:18px 0}
+.p-facts{display:flex;flex-direction:column;gap:12px;text-align:left}
+.fact{display:flex;justify-content:space-between;font-size:13px}
+.fl{color:var(--muted)}.fv{color:var(--text);font-weight:500}
+.stars{color:var(--accent);letter-spacing:1px}
+.p-markets{display:flex;gap:8px;justify-content:flex-end}
+
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.t-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;transition:border-color 0.2s}.t-card:hover{border-color:var(--border-accent)}
+.t-stars{color:var(--accent);font-size:14px;letter-spacing:2px;margin-bottom:14px}
+.t-quote{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:20px;font-style:italic}
+.t-author{display:flex;align-items:center;gap:12px}
+.t-av{width:36px;height:36px;border-radius:50%;background:var(--accent2-soft);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--accent2)}
+.t-name{font-size:13px;font-weight:500;color:var(--text)}.t-loc{font-size:11px;color:var(--muted)}
+
+/* CONTACT — updated */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.c-intro{color:var(--muted);font-size:15px;line-height:1.8;margin-bottom:28px}
+.c-cards{display:flex;flex-direction:column;gap:14px}
+.c-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:16px;transition:border-color 0.2s;text-decoration:none;cursor:pointer}.c-card:hover{border-color:var(--border-accent)}
+.c-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.c-icon-wa{background:rgba(37,211,102,0.12)}
+.c-icon-email{background:var(--accent-soft)}
+.c-icon-free{background:var(--accent2-soft)}
+.c-info h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px}
+.c-info p{font-size:13px;color:var(--muted)}
+.c-info .c-link{font-size:13px;color:var(--accent);font-weight:500;margin-top:2px}
+.c-arrow{margin-left:auto;color:var(--muted);font-size:18px;flex-shrink:0}
+
+.form-box{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:36px}
+.form-box h3{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px}
+.form-box .form-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.ff{margin-bottom:18px}
+.ff label{display:block;font-size:12px;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:8px}
+.ff input,.ff textarea,.ff select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:13px 16px;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;resize:none}.ff input:focus,.ff textarea:focus,.ff select:focus{border-color:rgba(212,175,110,0.4)}
+.ff select option{background:var(--bg3);color:var(--text)}
+.form-submit{width:100%;background:var(--accent);color:#08080f;font-size:14px;font-weight:600;padding:14px;border-radius:12px;border:none;cursor:pointer;margin-top:4px;transition:opacity 0.2s;letter-spacing:0.02em}.form-submit:hover{opacity:0.85}
+
+footer{padding:34px 48px;display:flex;align-items:center;justify-content:space-between;background:var(--bg2)}
+.f-brand{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}.f-brand span{color:var(--accent)}
+.f-copy{font-size:13px;color:var(--muted)}
+.f-badge{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.gdot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+@media(max-width:680px){
+  nav{padding:18px 20px}.nav-links{display:none}
+  .hero{padding:60px 20px 48px;grid-template-columns:1fr;gap:36px}
+  .trust-bar{gap:14px;padding:20px}.trust-sep{display:none}
+  section{padding:48px 20px}
+  .drop-layout,.about-layout,.contact-layout{grid-template-columns:1fr}
+  .markets-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr 1fr;gap:24px}.process-steps::before{display:none}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:28px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">N<span>.</span>Portfolio</div>
+  <div class="nav-links">
+    <a href="#">Services</a><a href="#">Dropshipping</a><a href="#">Markets</a><a href="#">About</a><a href="#">Contact</a>
+  </div>
+  <button class="nav-cta" onclick="window.open('https://wa.me/923337853318','_blank')">Hire Me</button>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">eBay Expert · Dropshipping Specialist</span></div>
+    <h1>Hello, I'm<br><em>Naimatullah</em></h1>
+    <p class="hero-desc">I help eBay sellers build, grow, and scale their businesses — from account creation to listing optimization, dropshipping, and everything in between.</p>
+    <div class="client-flags">
+      <div class="flag-badge">🇬🇧 United Kingdom</div>
+      <div class="flag-badge">🇺🇸 United States</div>
+      <div class="flag-badge">🇦🇺 Australia</div>
+    </div>
+    <div class="hero-actions">
+      <button class="btn-gold" onclick="window.open('https://wa.me/923337853318','_blank')">WhatsApp Me Now</button>
+      <button class="btn-ghost" onclick="window.location='mailto:namatullah7675@gmail.com'">Send an Email</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-card"><div class="stat-icon">🏆</div><div><div class="stat-num">200+</div><div class="stat-label">Clients Served Successfully</div></div></div>
+    <div class="stat-card"><div class="stat-icon">⭐</div><div><div class="stat-num">4.9 / 5</div><div class="stat-label">Average Client Rating</div></div></div>
+    <div class="stat-card"><div class="stat-icon">🌍</div><div><div class="stat-num">3 Markets</div><div class="stat-label">UK · USA · Australia</div></div></div>
+    <div class="stat-card"><div class="stat-icon">🚀</div><div><div class="stat-num">7 Services</div><div class="stat-label">End-to-End eBay Solutions</div></div></div>
+  </div>
+</div>
+
+<div class="trust-bar">
+  <div class="trust-item">✓ <span>eBay Verified Expert</span></div>
+  <div class="trust-sep"></div>
+  <div class="trust-item">✓ <span>Amazon · AliExpress · CJ Dropshipping</span></div>
+  <div class="trust-sep"></div>
+  <div class="trust-item">✓ <span>UK · USA · AU Markets</span></div>
+  <div class="trust-sep"></div>
+  <div class="trust-item">✓ <span>Results Guaranteed</span></div>
+  <div class="trust-sep"></div>
+  <div class="trust-item">✓ <span>24/7 Support</span></div>
+</div>
+
+<section>
+  <div class="sec-eye"><div class="line"></div><span class="lbl">What I Offer</span></div>
+  <div class="sec-title">My eBay Services</div>
+  <p class="sec-sub">Complete eBay solutions tailored for new and experienced sellers — handled professionally from start to finish.</p>
+  <div class="services-grid">
+    <div class="svc-card"><span class="svc-num">01</span><div class="svc-icon">🆕</div><h3>Account Creation</h3><p>I set up your eBay seller account from scratch — fully optimized, policy-compliant, and ready to start selling from day one.</p><div class="svc-tags"><span class="svc-tag">Seller Setup</span><span class="svc-tag">Policy Compliance</span><span class="svc-tag">Profile Optimization</span></div></div>
+    <div class="svc-card"><span class="svc-num">02</span><div class="svc-icon">⚙️</div><h3>Account Management</h3><p>Full ongoing management of your eBay account — handling orders, messages, performance metrics, and keeping your store running smoothly.</p><div class="svc-tags"><span class="svc-tag">Order Handling</span><span class="svc-tag">Performance Health</span><span class="svc-tag">Store Maintenance</span></div></div>
+    <div class="svc-card"><span class="svc-num">03</span><div class="svc-icon">🔍</div><h3>Product Research</h3><p>Data-driven product research using market analysis and eBay trends to identify what sells, at what price, and with the best margins.</p><div class="svc-tags"><span class="svc-tag">Market Analysis</span><span class="svc-tag">Trend Research</span><span class="svc-tag">Competitor Study</span></div></div>
+    <div class="svc-card"><span class="svc-num">04</span><div class="svc-icon">🎯</div><h3>Product Hunting</h3><p>I find profitable, in-demand products for your store using proven sourcing strategies that maximize your ROI and reduce risk.</p><div class="svc-tags"><span class="svc-tag">Winning Products</span><span class="svc-tag">Sourcing Strategy</span><span class="svc-tag">ROI Focused</span></div></div>
+    <div class="svc-card"><span class="svc-num">05</span><div class="svc-icon">✍️</div><h3>Listing Optimization</h3><p>SEO-optimized titles, bullet points, descriptions, and pricing strategies that boost your visibility and drive more conversions on eBay.</p><div class="svc-tags"><span class="svc-tag">SEO Titles</span><span class="svc-tag">Keyword Strategy</span><span class="svc-tag">Higher Conversions</span></div></div>
+    <div class="svc-card"><span class="svc-num">06</span><div class="svc-icon">🛡️</div><h3>Feedback & Defect Removal</h3><p>I help remove negative feedback and account defects — protecting your seller rating and restoring your store's health and reputation.</p><div class="svc-tags"><span class="svc-tag">Negative Feedback</span><span class="svc-tag">Defect Removal</span><span class="svc-tag">Rating Recovery</span></div></div>
+    <div class="svc-card"><span class="svc-num">07</span><div class="svc-icon">💬</div><h3>Customer Service</h3><p>Professional handling of buyer messages, disputes, returns, and cases — ensuring happy customers and a clean seller record.</p><div class="svc-tags"><span class="svc-tag">Buyer Messages</span><span class="svc-tag">Dispute Resolution</span><span class="svc-tag">Returns Handling</span></div></div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="sec-eye"><div class="line"></div><span class="lbl">Dropshipping Expertise</span></div>
+  <div class="sec-title">Dropshipping Skills & Suppliers</div>
+  <p class="sec-sub">I source winning products from the world's top suppliers and build profitable dropshipping systems on eBay — handled end to end.</p>
+  <div class="drop-layout">
+    <div>
+      <p class="drop-intro">With strong expertise in <strong>eBay dropshipping</strong>, I know exactly how to source products from the right suppliers, price them competitively, and build a store that runs on autopilot. I handle everything from supplier setup to order fulfilment.</p>
+      <div class="skills-wrap">
+        <div class="skill-pill"><div class="dot"></div>Product Sourcing</div>
+        <div class="skill-pill"><div class="dot"></div>Supplier Negotiation</div>
+        <div class="skill-pill"><div class="dot"></div>Order Fulfilment</div>
+        <div class="skill-pill"><div class="dot"></div>Inventory Management</div>
+        <div class="skill-pill"><div class="dot"></div>Price Optimization</div>
+        <div class="skill-pill"><div class="dot"></div>Tracking & Dispatch</div>
+        <div class="skill-pill"><div class="dot"></div>Dropshipping Automation</div>
+        <div class="skill-pill"><div class="dot"></div>Returns Management</div>
+        <div class="skill-pill"><div class="dot"></div>Profit Margin Analysis</div>
+        <div class="skill-pill"><div class="dot"></div>Competitor Pricing</div>
+      </div>
+    </div>
+    <div class="supplier-cards">
+      <div class="supplier-card"><div class="sup-icon sup-amazon">🛒</div><div><h4>Amazon</h4><p>Sourcing high-demand products from Amazon with fast shipping options, trusted brand names, and reliable fulfilment for eBay listings in the UK, US, and AU markets.</p><span class="sup-badge badge-amazon">Amazon Dropshipping</span></div></div>
+      <div class="supplier-card"><div class="sup-icon sup-ali">🌐</div><div><h4>AliExpress</h4><p>Finding quality low-cost products from AliExpress suppliers with strong ratings — maximizing profit margins while maintaining good delivery standards for buyers.</p><span class="sup-badge badge-ali">AliExpress Sourcing</span></div></div>
+      <div class="supplier-card"><div class="sup-icon sup-cj">📦</div><div><h4>CJ Dropshipping</h4><p>Leveraging CJ Dropshipping for faster worldwide shipping, custom branding options, and a wider product catalogue — ideal for scaling eBay stores quickly.</p><span class="sup-badge badge-cj">CJ Dropshipping Expert</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-eye"><div class="line"></div><span class="lbl">Client Markets</span></div>
+  <div class="sec-title">Markets I Serve</div>
+  <p class="sec-sub">Deep knowledge of eBay marketplaces in three major English-speaking markets — local buyer behaviour, pricing, and platform rules for each.</p>
+  <div class="markets-grid">
+    <div class="market-card"><span class="market-flag">🇬🇧</span><h3>United Kingdom</h3><p>Experienced with eBay.co.uk — UK buyer expectations, Royal Mail & courier options, VAT considerations, and local pricing strategies that convert.</p><div class="market-tags"><span class="m-tag">eBay.co.uk</span><span class="m-tag">Royal Mail</span><span class="m-tag">UK VAT</span><span class="m-tag">GBP Pricing</span></div></div>
+    <div class="market-card"><span class="market-flag">🇺🇸</span><h3>United States</h3><p>Deep expertise in eBay.com — the world's largest eBay market. US buyer behaviour, USPS shipping, sales tax, and high-converting listing strategies.</p><div class="market-tags"><span class="m-tag">eBay.com</span><span class="m-tag">USPS Shipping</span><span class="m-tag">Sales Tax</span><span class="m-tag">USD Pricing</span></div></div>
+    <div class="market-card"><span class="market-flag">🇦🇺</span><h3>Australia</h3><p>Skilled in eBay.com.au — Australian marketplace rules, Australia Post integration, GST compliance, and product categories that perform well Down Under.</p><div class="market-tags"><span class="m-tag">eBay.com.au</span><span class="m-tag">Australia Post</span><span class="m-tag">GST</span><span class="m-tag">AUD Pricing</span></div></div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="sec-eye"><div class="line"></div><span class="lbl">How It Works</span></div>
+  <div class="sec-title">My Simple Process</div>
+  <p class="sec-sub">Getting started is easy — here is how I work with every client from day one.</p>
+  <div class="process-steps">
+    <div class="step"><div class="step-circle"><span class="step-num">1</span>📋</div><h4>Free Consultation</h4><p>We discuss your goals, current situation, and which services you need.</p></div>
+    <div class="step"><div class="step-circle"><span class="step-num">2</span>📝</div><h4>Custom Plan</h4><p>I build a tailored action plan specific to your store, niche, and target market.</p></div>
+    <div class="step"><div class="step-circle"><span class="step-num">3</span>⚡</div><h4>Execution</h4><p>I get to work immediately — delivering fast, professional, measurable results.</p></div>
+    <div class="step"><div class="step-circle"><span class="step-num">4</span>📈</div><h4>Growth & Support</h4><p>Ongoing reporting and support to ensure your store keeps scaling profitably.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-eye"><div class="line"></div><span class="lbl">About Me</span></div>
+  <div class="sec-title">The Expert Behind the Services</div>
+  <p class="sec-sub"></p>
+  <div class="about-layout">
+    <div class="about-text">
+      <p>My name is <strong>Naimatullah</strong> and I am a dedicated eBay service provider and dropshipping specialist with deep expertise in building and scaling eBay businesses across the <strong>UK, US, and Australian markets</strong>.</p>
+      <p>I source products from <strong>Amazon, AliExpress, and CJ Dropshipping</strong> — choosing the right supplier for every niche and market to maximize profit and buyer satisfaction. I have helped over <strong>200 clients</strong> achieve consistent growth on eBay.</p>
+      <p>My approach is simple: <strong>honest advice, professional execution, and real results.</strong></p>
+      <div class="vals">
+        <div class="val"><div class="val-dot"></div><span class="val-text">Deep knowledge of eBay policies across UK, US & AU</span></div>
+        <div class="val"><div class="val-dot"></div><span class="val-text">Proven dropshipping systems with top global suppliers</span></div>
+        <div class="val"><div class="val-dot"></div><span class="val-text">Data-driven approach to product research and listings</span></div>
+        <div class="val"><div class="val-dot"></div><span class="val-text">Transparent communication and regular progress updates</span></div>
+      </div>
+    </div>
+    <div class="profile-box">
+      <div class="avatar">N</div>
+      <div class="p-name">Naimatullah</div>
+      <div class="p-title">eBay Expert · Dropshipping Specialist</div>
+      <div class="p-div"></div>
+      <div class="p-facts">
+        <div class="fact"><span class="fl">Specialization</span><span class="fv">eBay & Dropshipping</span></div>
+        <div class="fact"><span class="fl">Clients Served</span><span class="fv">200+</span></div>
+        <div class="fact"><span class="fl">Rating</span><span class="fv stars">★★★★★</span></div>
+        <div class="fact"><span class="fl">Suppliers</span><span class="fv">Amazon · AliExpress · CJ</span></div>
+        <div class="fact"><span class="fl">Markets</span><div class="p-markets"><span>🇬🇧</span><span>🇺🇸</span><span>🇦🇺</span></div></div>
+        <div class="fact"><span class="fl">WhatsApp</span><span class="fv">+92 333 7853318</span></div>
+        <div class="fact"><span class="fl">Location</span><span class="fv">Pakistan 🇵🇰</span></div>
+        <div class="fact"><span class="fl">Response Time</span><span class="fv">Under 6 hrs</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="sec-eye"><div class="line"></div><span class="lbl">Client Reviews</span></div>
+  <div class="sec-title">What My Clients Say</div>
+  <p class="sec-sub">Trusted by eBay sellers across the UK, USA, and Australia.</p>
+  <div class="testi-grid">
+    <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-quote">"Naimatullah set up my entire eBay dropshipping store using AliExpress and optimized all my listings. Sales started coming in within the first week. Brilliant work!"</p><div class="t-author"><div class="t-av">JM</div><div><div class="t-name">James M.</div><div class="t-loc">🇬🇧 United Kingdom</div></div></div></div>
+    <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-quote">"He removed 3 negative feedbacks, fixed my account defects, and helped me recover my Top Rated Seller status. The best eBay expert I've ever hired."</p><div class="t-author"><div class="t-av">SR</div><div><div class="t-name">Sarah R.</div><div class="t-loc">🇺🇸 United States</div></div></div></div>
+    <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-quote">"His product hunting and CJ Dropshipping setup saved me so much time. My Australian eBay store is generating consistent profit every month now."</p><div class="t-author"><div class="t-av">DW</div><div><div class="t-name">Daniel W.</div><div class="t-loc">🇦🇺 Australia</div></div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT — with real details -->
+<section>
+  <div class="sec-eye"><div class="line"></div><span class="lbl">Contact</span></div>
+  <div class="sec-title">Let's Work Together</div>
+  <p class="sec-sub">Ready to grow your eBay business? Reach out directly — I respond within 6 hours.</p>
+  <div class="contact-layout">
+    <div>
+      <p class="c-intro">Whether you're just starting out on eBay or looking to scale an existing dropshipping store in the UK, USA, or Australia — I'm here to help. Contact me directly through WhatsApp or email for the fastest response.</p>
+      <div class="c-cards">
+        <div class="c-card" onclick="window.open('https://wa.me/923337853318?text=Hi%20Naimatullah,%20I%20found%20your%20portfolio%20and%20I%20am%20interested%20in%20your%20eBay%20services.','_blank')">
+          <div class="c-icon c-icon-wa">💬</div>
+          <div class="c-info">
+            <h4>WhatsApp</h4>
+            <p>Click to chat instantly</p>
+            <div class="c-link">+92 333 7853318</div>
+          </div>
+          <div class="c-arrow">→</div>
+        </div>
+        <div class="c-card" onclick="window.location='mailto:namatullah7675@gmail.com?subject=eBay Services Enquiry&body=Hi Naimatullah, I found your portfolio and I am interested in your services.'">
+          <div class="c-icon c-icon-email">✉️</div>
+          <div class="c-info">
+            <h4>Email</h4>
+            <p>For detailed project proposals</p>
+            <div class="c-link">namatullah7675@gmail.com</div>
+          </div>
+          <div class="c-arrow">→</div>
+        </div>
+        <div class="c-card">
+          <div class="c-icon c-icon-free">🎁</div>
+          <div class="c-info">
+            <h4>Free Consultation</h4>
+            <p>First session is completely free — no commitment required</p>
+          </div>
+          <div class="c-arrow">→</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-box">
+      <h3>Send a Message</h3>
+      <p class="form-sub">Fill in the form and I'll reply within 6 hours.</p>
+      <div class="ff"><label>Your Name</label><input type="text" placeholder="e.g. John Smith" /></div>
+      <div class="ff"><label>Email Address</label><input type="email" placeholder="you@example.com" /></div>
+      <div class="ff"><label>Your Market</label>
+        <select>
+          <option value="">Select your eBay market...</option>
+          <option>🇬🇧 United Kingdom (eBay.co.uk)</option>
+          <option>🇺🇸 United States (eBay.com)</option>
+          <option>🇦🇺 Australia (eBay.com.au)</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="ff"><label>Service Needed</label><input type="text" placeholder="e.g. Dropshipping Setup, Listing Optimization" /></div>
+      <div class="ff"><label>Message</label><textarea rows="4" placeholder="Tell me about your eBay store and goals..."></textarea></div>
+      <button class="form-submit" onclick="window.location='mailto:namatullah7675@gmail.com'">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-brand">Naimat<span>ullah</span></div>
+  <div class="f-badge"><div class="gdot"></div>Available for new clients · 🇬🇧 🇺🇸 🇦🇺</div>
+  <div class="f-copy">© 2026 Naimatullah · eBay Expert · All rights reserved</div>
+</footer>
+
+</body>
+</html>
